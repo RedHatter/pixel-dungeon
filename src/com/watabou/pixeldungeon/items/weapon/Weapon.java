@@ -44,7 +44,7 @@ public class Weapon extends KindOfWeapon {
 	public float	ACU	= 1;	// Accuracy modifier
 	public float	DLY	= 1f;	// Speed modifier
 	
-	private int hitsToKnow = 20;
+	private float hitsToKnow = 20f;
 	
 	protected Enchantment enchantment;
 	
@@ -54,13 +54,19 @@ public class Weapon extends KindOfWeapon {
 		if (enchantment != null) {
 			enchantment.proc( this, attacker, defender, damage );
 		}
-		
-		if (!levelKnown) {
-			if (--hitsToKnow <= 0) {
-				levelKnown = true;
-				GLog.i( TXT_IDENTIFY, name(), toString() );
-				Badges.validateItemLevelAquired( this );
-			}
+
+		knowBy (1);
+	}
+
+	public void knowBy (float abount) {
+		if (levelKnown)
+			return;
+
+		hitsToKnow -= abount;
+		if (hitsToKnow <= 0) {
+			levelKnown = true;
+			GLog.i( TXT_IDENTIFY, name(), toString() );
+			Badges.validateItemLevelAquired( this );
 		}
 	}
 	

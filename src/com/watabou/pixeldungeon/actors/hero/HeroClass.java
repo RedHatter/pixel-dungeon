@@ -24,15 +24,24 @@ import com.watabou.pixeldungeon.items.TomeOfMastery;
 import com.watabou.pixeldungeon.items.armor.ClothArmor;
 import com.watabou.pixeldungeon.items.food.Food;
 import com.watabou.pixeldungeon.items.potions.PotionOfStrength;
+import com.watabou.pixeldungeon.items.potions.PotionOfLiquidFlame;
+import com.watabou.pixeldungeon.items.potions.PotionOfParalyticGas;
+import com.watabou.pixeldungeon.items.potions.PotionOfToxicGas;
 import com.watabou.pixeldungeon.items.rings.RingOfShadows;
+import com.watabou.pixeldungeon.items.scrolls.ScrollOfUpgrade;
 import com.watabou.pixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.watabou.pixeldungeon.items.scrolls.ScrollOfMagicMapping;
+import com.watabou.pixeldungeon.items.scrolls.ScrollOfMirrorImage;
+import com.watabou.pixeldungeon.items.scrolls.ScrollOfTeleportation;
+import com.watabou.pixeldungeon.items.scrolls.ScrollOfRemoveCurse;
 import com.watabou.pixeldungeon.items.wands.WandOfMagicMissile;
 import com.watabou.pixeldungeon.items.weapon.melee.Dagger;
 import com.watabou.pixeldungeon.items.weapon.melee.Knuckles;
 import com.watabou.pixeldungeon.items.weapon.melee.ShortSword;
 import com.watabou.pixeldungeon.items.weapon.missiles.Dart;
 import com.watabou.pixeldungeon.items.weapon.missiles.Boomerang;
+import com.watabou.pixeldungeon.actors.buffs.Buff;
+import com.watabou.pixeldungeon.actors.buffs.Identify;
 import com.watabou.utils.Bundle;
 
 public enum HeroClass {
@@ -50,7 +59,8 @@ public enum HeroClass {
 		"Warriors start with a unique short sword. This sword can be later \"reforged\" to upgrade another melee weapon.",
 		"Warriors are less proficient with missile weapons.",
 		"Any piece of food restores some health when eaten.",
-		"Potions of Strength are identified from the beginning.",
+		"Potions of Strength and Scrolls of Upgrade are identified from the beginning.",
+		"Able to identify weapons and armor in inventory given time."
 	};
 	
 	public static final String[] MAG_PERKS = {
@@ -58,7 +68,7 @@ public enum HeroClass {
 		"Mages recharge their wands faster.",
 		"When eaten, any piece of food restores 1 charge for all wands in the inventory.",
 		"Mages can use wands as a melee weapon.",
-		"Scrolls of Identify are identified from the beginning."
+		"Scrolls of Identify, Mirror image, Teleportation, and Remove Curse are identified from the beginning."
 	};
 	
 	public static final String[] ROG_PERKS = {
@@ -67,7 +77,7 @@ public enum HeroClass {
 		"Rogues are proficient with light armor, dodging better while wearing one.",
 		"Rogues are proficient in detecting hidden doors and traps.",
 		"Rogues can go without food longer.",
-		"Scrolls of Magic Mapping are identified from the beginning."
+		"Scrolls of Magic Mapping and Postions of Toxic Gas, Paralytic Gas, and Liquid Flame are identified from the beginning."
 	};
 	
 	public static final String[] HUN_PERKS = {
@@ -118,6 +128,9 @@ public enum HeroClass {
 		Dungeon.quickslot = Dart.class;
 		
 		new PotionOfStrength().setKnown();
+		new ScrollOfUpgrade().setKnown();
+
+		Buff.affect( hero, Identify.class );
 	}
 	
 	private static void initMage( Hero hero ) {	
@@ -135,6 +148,9 @@ public enum HeroClass {
 		Dungeon.quickslot = wand;
 		
 		new ScrollOfIdentify().setKnown();
+		new ScrollOfTeleportation().setKnown();
+		new ScrollOfMirrorImage().setKnown();
+		new ScrollOfRemoveCurse().setKnown();
 	}
 	
 	private static void initRogue( Hero hero ) {
@@ -153,6 +169,9 @@ public enum HeroClass {
 		Dungeon.quickslot = Dart.class;
 		
 		new ScrollOfMagicMapping().setKnown();
+		new PotionOfToxicGas().setKnown();
+		new PotionOfParalyticGas().setKnown();
+		new PotionOfLiquidFlame().setKnown();
 	}
 	
 	private static void initHuntress( Hero hero ) {

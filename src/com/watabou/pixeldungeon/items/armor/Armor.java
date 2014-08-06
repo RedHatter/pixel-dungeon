@@ -51,7 +51,7 @@ public class Armor extends EquipableItem {
 	public int STR;
 	public int DR;
 	
-	private int hitsToKnow = 10;
+	private float hitsToKnow = 10f;
 	
 	public Glyph glyph;
 	
@@ -182,17 +182,23 @@ public class Armor extends EquipableItem {
 			damage = glyph.proc( this, attacker, defender, damage );
 		}
 		
-		if (!levelKnown) {
-			if (--hitsToKnow <= 0) {
-				levelKnown = true;
-				GLog.w( TXT_IDENTIFY, name(), toString() );
-				Badges.validateItemLevelAquired( this );
-			}
-		}
+		knowBy(1);
 		
 		return damage;
 	}
 	
+	public void knowBy (float abount) {
+		if (levelKnown)
+			return;
+
+		hitsToKnow -= abount;
+		if (hitsToKnow <= 0) {
+			levelKnown = true;
+			GLog.w( TXT_IDENTIFY, name(), toString() );
+			Badges.validateItemLevelAquired( this );
+		}
+	}
+
 	@Override
 	public String toString() {
 		return levelKnown ? Utils.format( TXT_TO_STRING, super.toString(), STR ) : super.toString();
